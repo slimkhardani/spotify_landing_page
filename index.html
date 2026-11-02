@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Découvre des univers musicaux, explore des playlists et trouve la musique qui te ressemble.">
+    <meta name="theme-color" content="#121212">
+
+    <title>Spotify — La musique qui te ressemble</title>
+
+    <!-- Applique le thème AVANT l'affichage : évite le flash blanc/noir au chargement -->
+    <script>
+        (function () {
+            document.documentElement.classList.add("js");
+            var theme = null;
+            try { theme = localStorage.getItem("theme"); } catch (e) {}
+            if (theme !== "light" && theme !== "dark") {
+                theme = window.matchMedia("(prefers-color-scheme: light)").matches
+                    ? "light" : "dark";
+            }
+            document.documentElement.setAttribute("data-theme", theme);
+        })();
+    </script>
+
+    <!-- Polices : Bricolage Grotesque (titres) et DM Sans (texte) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&amp;family=DM+Sans:wght@400;500;700&amp;display=swap">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- ÉCRAN DE CHARGEMENT -->
+    <div class="preloader" id="preloader" role="status">
+        <div class="preloader-inner" aria-hidden="true">
+            <span class="preloader-logo">≋</span>
+            <div class="preloader-bars">
+                <span></span><span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+        <span class="sr-only">Chargement de la page…</span>
+    </div>
+
+    <!-- Lien d'accès direct au contenu -->
+    <a class="skip-link" href="#contenu">
+        Aller au contenu principal
+    </a>
+
+    <!-- NAVIGATION -->
+    <header class="header">
+        <nav class="navbar container" aria-label="Navigation principale">
+
+            <a class="logo" href="#accueil">
+                <span class="logo-icon" aria-hidden="true">≋</span>
+                <span>Spotify</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="#decouverte">Découverte</a>
+                <a href="#fonctionnalites">Fonctionnalités</a>
+                <a href="#premium">Premium</a>
+                <a href="#lancement">Lancement</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" id="themeToggle" type="button"
+                        aria-label="Passer en mode clair">
+                    <span class="theme-icon" aria-hidden="true">☀</span>
+                </button>
+
+                <a class="btn btn-small btn-download" data-download="short"
+                   href="https://www.spotify.com/download/"
+                   target="_blank" rel="noopener noreferrer">
+                    <span class="dl-label">Télécharger Spotify</span>
+                </a>
+            </div>
+
+        </nav>
+    </header>
+
+    <main id="contenu">
+
+        <!-- SECTION HERO -->
+        <section class="hero parallax" id="accueil">
+
+            <div class="container hero-layout">
+
+                <div class="hero-text">
+
+                    <p class="eyebrow">TA MUSIQUE. TON UNIVERS.</p>
+
+                    <h1>
+                        Toute la musique.
+                        <span>Toutes tes émotions.</span>
+                    </h1>
+
+                    <p class="hero-description">
+                        Découvre des sons qui te ressemblent, crée tes
+                        playlists et emporte ta musique partout avec toi.
+                    </p>
+
+                    <!-- Choix de la plateforme (mémorisé avec localStorage) -->
+                    <div class="platform-switch" role="group" aria-label="Choisir ta plateforme">
+                        <span class="platform-label" aria-hidden="true">Je suis sur :</span>
+                        <button class="platform-btn" type="button" data-platform="ios" aria-pressed="false">iOS</button>
+                        <button class="platform-btn" type="button" data-platform="android" aria-pressed="false">Android</button>
+                    </div>
+
+                    <div class="hero-actions">
+
+                        <a class="btn btn-download" data-download="full"
+                           href="https://www.spotify.com/download/"
+                           target="_blank" rel="noopener noreferrer">
+                            <span class="dl-label">Télécharger Spotify</span>
+                        </a>
+
+                        <a class="btn btn-outline" href="#decouverte">
+                            Explorer les playlists
+                        </a>
+
+                    </div>
+
+                    <p class="hero-caption">
+                        Des découvertes. Des émotions. Une infinité de sons.
+                    </p>
+
+                </div>
+
+                <!-- MOCKUP DU SMARTPHONE + CARROUSEL -->
+                <div class="hero-visual" id="carousel" role="group"
+                     aria-roledescription="carrousel"
+                     aria-label="Captures d'écran de l'application">
+
+                    <div class="orb orb-one" aria-hidden="true"></div>
+                    <div class="orb orb-two" aria-hidden="true"></div>
+
+                    <div class="phone">
+
+                        <div class="phone-screen">
+
+                            <!-- Barre d'état : fixe, hors du carrousel -->
+                            <div class="phone-status">
+                                <span>9:41</span>
+                                <span aria-hidden="true">● ● ▰</span>
+                            </div>
+
+                            <div class="carousel-viewport">
+                                <div class="carousel-track" aria-live="polite">
+
+                                    <!-- CAPTURE 1 : Accueil -->
+                                    <div class="slide" role="group" aria-roledescription="diapositive"
+                                         aria-label="Capture 1 sur 3">
+
+                                        <div class="phone-header">
+                                            <span class="mini-logo">Spotify</span>
+                                            <span class="profile-circle"
+                                                  aria-hidden="true">M</span>
+                                        </div>
+
+                                        <p class="phone-greeting">
+                                            Bonjour, Molka et Slim 👋
+                                        </p>
+
+                                        <h2>Pour toi</h2>
+
+                                        <div class="mini-playlist">
+
+                                            <div class="mini-cover cover-purple"
+                                                 aria-hidden="true">
+                                                <span>VIBES</span>
+                                            </div>
+
+                                            <div class="track-info">
+                                                <strong>Daily Mix</strong>
+                                                <small>Des sons pour ton mood</small>
+                                                <small>Playlist personnalisée</small>
+                                            </div>
+
+                                        </div>
+
+                                        <h3>À découvrir</h3>
+                                        <div class="phone-albums">
+                                            <div>
+                                                <div class="mini-cover cover-orange"
+                                                     aria-hidden="true">
+                                                    <span>CHILL</span>
+                                                </div>
+                                                <strong>Chill vibes</strong>
+                                                <small>Pour se détendre</small>
+                                            </div>
+                                            <div>
+                                                <div class="mini-cover cover-green"
+                                                     aria-hidden="true">
+                                                    <span>FOCUS</span>
+                                                </div>
+                                                <strong>Focus mode</strong>
+                                                <small>Reste concentré</small>
+                                            </div>
+                                        </div>
+
+                                        <div class="player">
+
+                                            <div class="player-cover"
+                                                 aria-hidden="true">♫</div>
+
+                                            <div class="player-info">
+                                                <strong>Midnight Dreams</strong>
+                                                <small>Artiste imaginaire</small>
+                                            </div>
+
+                                            <span class="play-icon"
+                                                  aria-hidden="true">▶</span>
+
+                                        </div>
+                                    </div>
+
+                                    <!-- CAPTURE 2 : Recherche -->
+                                    <div class="slide" role="group" aria-roledescription="diapositive"
+                                         aria-label="Capture 2 sur 3">
+                                        <div class="phone-header">
+                                            <span class="mini-logo">Spotify</span>
+                                            <span class="profile-circle" aria-hidden="true">M</span>
+                                        </div>
+                                        <h2>Rechercher</h2>
+                                        <div class="fake-search" aria-hidden="true">⌕ Artistes, titres, podcasts</div>
+                                        <h3>Parcourir tout</h3>
+                                        <div class="tile-grid">
+                                            <div class="tile cover-purple">Pop</div>
+                                            <div class="tile cover-orange">Rap</div>
+                                            <div class="tile cover-green">Jazz</div>
+                                            <div class="tile cover-blue">Électro</div>
+                                            <div class="tile cover-red">Lo-fi</div>
+                                            <div class="tile cover-teal">Chill</div>
+                                        </div>
+                                    </div>
+
+                                    <!-- CAPTURE 3 : Bibliothèque -->
+                                    <div class="slide" role="group" aria-roledescription="diapositive"
+                                         aria-label="Capture 3 sur 3">
+                                        <div class="phone-header">
+                                            <span class="mini-logo">Spotify</span>
+                                            <span class="profile-circle" aria-hidden="true">M</span>
+                                        </div>
+                                        <h2>Bibliothèque</h2>
+                                        <ul class="library-list">
+                                            <li>
+                                                <span class="mini-cover mini-cover-sm cover-purple" aria-hidden="true">♫</span>
+                                                <div><strong>Mes coups de cœur</strong><small>Playlist · 48 titres</small></div>
+                                            </li>
+                                            <li>
+                                                <span class="mini-cover mini-cover-sm cover-orange" aria-hidden="true">♫</span>
+                                                <div><strong>Chill vibes</strong><small>Playlist · 32 titres</small></div>
+                                            </li>
+                                            <li>
+                                                <span class="mini-cover mini-cover-sm cover-green" aria-hidden="true">♫</span>
+                                                <div><strong>Focus mode</strong><small>Playlist · 60 titres</small></div>
+                                            </li>
+                                            <li>
+                                                <span class="mini-cover mini-cover-sm cover-blue" aria-hidden="true">♫</span>
+                                                <div><strong>Soirée électro</strong><small>Playlist · 25 titres</small></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- Barre de navigation du téléphone (partagée par les 3 captures) -->
+                            <div class="phone-nav" aria-hidden="true">
+                                <span>⌂<small>Accueil</small></span>
+                                <span>⌕<small>Recherche</small></span>
+                                <span>▤<small>Bibliothèque</small></span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Contrôles du carrousel -->
+                    <div class="carousel-controls">
+                        <button class="carousel-btn" type="button" data-carousel-prev
+                                aria-label="Capture précédente">
+                            <span aria-hidden="true">‹</span>
+                        </button>
+
+                        <div class="carousel-dots"></div>
+
+                        <button class="carousel-btn" type="button" data-carousel-next
+                                aria-label="Capture suivante">
+                            <span aria-hidden="true">›</span>
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- BANDEAU DES GENRES (décoratif) -->
+        <div class="ticker" aria-hidden="true">
+            <div class="ticker-track">
+                <span>Monoprix</span><span>Ooredoo</span><span>HA</span><span>Tunisie Telecom</span>
+                <span>Decathlon</span><span>MG</span><span>Orange</span><span>Mall Sousse</span>
+                <span>Monoprix</span><span>Ooredoo</span><span>HA</span><span>Ooredoo</span>
+                <span>Decathlon</span><span>Tunisie Telecom</span><span>MG</span><span>Decathlon</span>
+            </div>
+        </div>
+
+        <!-- CHIFFRES CLÉS -->
+        <section class="section stats" id="chiffres">
+            <h2 class="sr-only">L'application en chiffres</h2>
+
+            <div class="container stats-grid">
+
+                <div class="stat">
+                    <p class="stat-number">
+                        <span class="counter" data-target="2500000" data-suffix="+"
+                              aria-hidden="true">2 500 000+</span>
+                        <span class="sr-only">Plus de 2 500 000</span>
+                    </p>
+                    <p class="stat-label">Téléchargements</p>
+                </div>
+
+                <div class="stat">
+                    <p class="stat-number">
+                        <span class="counter" data-target="4.8" data-decimals="1" data-suffix="/5"
+                              aria-hidden="true">4,8/5</span>
+                        <span class="sr-only">4,8 sur 5</span>
+                    </p>
+                    <p class="stat-label">Note moyenne</p>
+                </div>
+
+                <div class="stat">
+                    <p class="stat-number">
+                        <span class="counter" data-target="128000" data-suffix="+"
+                              aria-hidden="true">128 000+</span>
+                        <span class="sr-only">Plus de 128 000</span>
+                    </p>
+                    <p class="stat-label">Avis</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DÉCOUVERTE MUSICALE -->
+        <section class="section discovery" id="decouverte">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <p class="eyebrow">TON PROCHAIN COUP DE CŒUR</p>
+
+                    <h2>
+                        Explore tes univers <span>musicaux.</span>
+                    </h2>
+
+                    <p>
+                        De la pop au rap, du jazz au lo-fi :
+                        trouve le son qui correspond à ton humeur.
+                    </p>
+
+                </div>
+
+                <div class="genre-grid">
+
+                    <article class="genre-card">
+                        <div class="genre-image">
+                            <img src="images/pop.jpg"
+                                 alt="Illustration de l'univers musical pop"
+                                 width="600"
+                                 height="600"
+                                 loading="lazy"
+                                 decoding="async">
+                            <span class="genre-tag"
+                                  aria-hidden="true">POP</span>
+                        </div>
+
+                        <div class="genre-info">
+                            <h3>Pop</h3>
+                            <p>
+                                Des mélodies entraînantes et des hits
+                                incontournables.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="genre-card">
+                        <div class="genre-image">
+                            <img src="images/rap.jpg"
+                                 alt="Illustration de l'univers musical rap"
+                                 width="600"
+                                 height="600"
+                                 loading="lazy"
+                                 decoding="async">
+                            <span class="genre-tag"
+                                  aria-hidden="true">RAP</span>
+                        </div>
+
+                        <div class="genre-info">
+                            <h3>Rap</h3>
+                            <p>
+                                Des flows puissants, des beats et des
+                                paroles marquantes.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="genre-card">
+                        <div class="genre-image">
+                            <img src="images/jazz.jpg"
+                                 alt="Illustration de l'univers musical jazz"
+                                 width="600"
+                                 height="600"
+                                 loading="lazy"
+                                 decoding="async">
+                            <span class="genre-tag"
+                                  aria-hidden="true">JAZZ</span>
+                        </div>
+
+                        <div class="genre-info">
+                            <h3>Jazz</h3>
+                            <p>
+                                Des sonorités élégantes pour une ambiance
+                                intemporelle.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="genre-card">
+                        <div class="genre-image">
+                            <img src="images/electro.jpg"
+                                 alt="Illustration de l'univers musical électro"
+                                 width="600"
+                                 height="600"
+                                 loading="lazy"
+                                 decoding="async">
+                            <span class="genre-tag"
+                                  aria-hidden="true">ÉLECTRO</span>
+                        </div>
+
+                        <div class="genre-info">
+                            <h3>Électro</h3>
+                            <p>
+                                Des rythmes électroniques pour faire
+                                monter l'énergie.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="genre-card">
+                        <div class="genre-image">
+                            <img src="images/lofi.jpg"
+                                 alt="Illustration de l'univers musical lo-fi"
+                                 width="600"
+                                 height="600"
+                                 loading="lazy"
+                                 decoding="async">
+                            <span class="genre-tag"
+                                  aria-hidden="true">LO-FI</span>
+                        </div>
+
+                        <div class="genre-info">
+                            <h3>Lo-fi</h3>
+                            <p>
+                                Des beats doux pour étudier, travailler
+                                ou se détendre.
+                            </p>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FONCTIONNALITÉS -->
+        <section class="section features" id="fonctionnalites">
+
+            <div class="container">
+
+                <div class="section-heading">
+
+                    <p class="eyebrow">BIEN PLUS QUE DE LA MUSIQUE</p>
+
+                    <h2>Ta musique, <span>à ta façon.</span></h2>
+
+                    <p>
+                        Profite d'une expérience musicale qui s'adapte
+                        à tes goûts et à tes habitudes.
+                    </p>
+
+                </div>
+
+                <div class="feature-grid">
+
+                    <article class="feature-card">
+                        <span class="feature-icon"
+                              aria-hidden="true">♫</span>
+
+                        <h3>Des millions de sons</h3>
+
+                        <p>
+                            Explore différents genres musicaux
+                            et trouve de nouveaux artistes.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <span class="feature-icon"
+                              aria-hidden="true">✦</span>
+
+                        <h3>Des recommandations</h3>
+
+                        <p>
+                            Découvre des suggestions musicales
+                            adaptées à tes goûts.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <span class="feature-icon"
+                              aria-hidden="true">▤</span>
+
+                        <h3>Tes playlists</h3>
+
+                        <p>
+                            Regroupe tes morceaux préférés
+                            dans tes propres playlists.
+                        </p>
+                    </article>
+
+                    <article class="feature-card">
+                        <span class="feature-icon"
+                              aria-hidden="true">♫</span>
+
+                        <h3>Écoute partout</h3>
+
+                        <p>
+                            Retrouve ta musique sur les appareils
+                            compatibles avec Spotify.
+                        </p>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- PREMIUM -->
+        <section class="section premium" id="premium">
+
+            <div class="container premium-layout">
+
+                <div class="premium-text">
+
+                    <p class="eyebrow">
+                        PASSE À L'EXPÉRIENCE SUPÉRIEURE
+                    </p>
+
+                    <h2>
+                        La musique qui t'accompagne,
+                        <span>sans limites.</span>
+                    </h2>
+
+                    <p>
+                        Découvre les offres Spotify et choisis
+                        l'expérience d'écoute qui te convient.
+                    </p>
+
+                    <ul>
+                        <li>
+                            <span aria-hidden="true">✓</span>
+                            Une expérience adaptée à tes envies
+                        </li>
+                        <li>
+                            <span aria-hidden="true">✓</span>
+                            Des playlists pour chaque ambiance
+                        </li>
+                        <li>
+                            <span aria-hidden="true">✓</span>
+                            Des options d'écoute selon ton offre
+                        </li>
+                    </ul>
+
+                    <a class="btn"
+                       href="https://www.spotify.com/premium/"
+                       target="_blank"
+                       rel="noopener noreferrer">
+                        Découvrir Premium
+                        <span aria-hidden="true">→</span>
+                    </a>
+
+                </div>
+
+                <div class="premium-art" aria-hidden="true">
+
+                    <div class="vinyl">
+                        <div class="vinyl-center">♫</div>
+                    </div>
+
+                    <span class="floating-note note-one">♪</span>
+                    <span class="floating-note note-two">♫</span>
+                    <span class="floating-note note-three">♬</span>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ÊTRE PRÉVENU DU LANCEMENT -->
+        <section class="section launch" id="lancement">
+            <div class="container launch-box">
+
+                <div class="launch-text">
+                    <p class="eyebrow">BIENTÔT DISPONIBLE</p>
+                    <h2>Être prévenu du <span>lancement.</span></h2>
+                    <p>
+                        Laisse-nous ton nom et ton e-mail : tu seras le premier
+                        informé des nouveautés de l'application.
+                    </p>
+                </div>
+
+                <form class="launch-form" id="launchForm" novalidate>
+
+                    <div class="field">
+                        <label for="nom">Nom</label>
+                        <input type="text" id="nom" name="nom"
+                               autocomplete="name" placeholder="Ton nom"
+                               required aria-describedby="nom-error">
+                        <p class="field-error" id="nom-error" aria-live="polite"></p>
+                    </div>
+
+                    <div class="field">
+                        <label for="email">Adresse e-mail</label>
+                        <input type="email" id="email" name="email"
+                               autocomplete="email" placeholder="nom@exemple.com"
+                               required aria-describedby="email-error">
+                        <p class="field-error" id="email-error" aria-live="polite"></p>
+                    </div>
+
+                    <button class="btn" type="submit">Me prévenir</button>
+
+                    <p class="form-status" id="formStatus" role="status"></p>
+
+                </form>
+            </div>
+        </section>
+
+        <!-- APPEL À L'ACTION FINAL -->
+        <section class="section final-cta">
+
+            <div class="container cta-box">
+
+                <p class="eyebrow">APPUIE SUR PLAY</p>
+
+                <h2>Ta prochaine chanson préférée t'attend.</h2>
+
+                <p>
+                    Explore de nouveaux sons et crée ta propre
+                    bande-son du quotidien.
+                </p>
+
+                <a class="btn cta-button btn-download" data-download="full"
+                   href="https://www.spotify.com/download/"
+                   target="_blank" rel="noopener noreferrer">
+                    <span class="dl-label">Télécharger Spotify gratuitement</span>
+                </a>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- PIED DE PAGE -->
+    <footer class="footer">
+
+        <div class="container footer-content">
+
+            <a class="logo" href="#accueil">
+                <span class="logo-icon" aria-hidden="true">≋</span>
+                <span>Spotify</span>
+            </a>
+
+            <p>Projet académique HTML5 &amp; CSS3 &amp; JavaScript.</p>
+
+           
+
+        </div>
+    </footer>
+
+    <!-- BOUTON RETOUR EN HAUT -->
+    <button class="back-to-top" id="backToTop" type="button"
+            aria-label="Retour en haut de la page">
+        <span aria-hidden="true">↑</span>
+    </button>
+
+</body>
+</html>
